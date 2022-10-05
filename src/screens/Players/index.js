@@ -1,15 +1,20 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { List, IconButton, Divider } from "react-native-paper";
+import { styles } from "./style";
 
 const Players = () => {
   return (
     <View>
-      <Text>Monte seu time:</Text>
-      <Text>
+      <Text style={styles.title}>Monte seu time:</Text>
+      <Text style={styles.subTitle}>
         Você deverá montar um time no esquema 4-4-2 (1 goleiro, 2 zagueiros, 2
         laterais, 2 volantes, 2 meias e 2 atacantes).
       </Text>
+      <Image
+        source={require("../../../assets/formacao.jpg")}
+        style={{ height: 160, width: 400 }}
+      />
       <Divider />
       <View
         style={{
@@ -17,8 +22,8 @@ const Players = () => {
           justifyContent: "space-between",
         }}
       >
-        <Text>Nome</Text>
-        <Text>Adicionar</Text>
+        <Text style={styles.name}>Nome/Posição</Text>
+        <Text style={styles.add}>Adicionar</Text>
       </View>
       <List.Item
         title="Léo"
