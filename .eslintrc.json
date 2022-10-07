@@ -4,13 +4,46 @@
         "es2021": true,
         "jest/globals": true
     },
-    "extends": ["standard", "plugin:prettier/recommended"],
+    "extends": [
+        "standard",
+        "plugin:prettier/recommended"
+    ],
     "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "rules": {
-        "no-console": "off"
+        "no-console": "off",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/prop-types": "off",
+        "import-helpers/order-imports": [
+            "warn",
+            {
+                "newlinesBetween": "always",
+                "groups": [
+                    "/^react/",
+                    "module",
+                    [
+                        "parent",
+                        "sibling",
+                        "index"
+                    ]
+                ],
+                "alphabetize": {
+                    "order": "asc",
+                    "ignoreCase": true
+                }
+            }
+        ]
     },
-    "plugins": ["jest"]
+    "plugins": [
+        "react",
+        "react-hooks",
+        "eslint-plugin-import-helpers",
+        "jest"
+    ]
 }

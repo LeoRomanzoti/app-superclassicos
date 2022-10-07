@@ -1,10 +1,8 @@
 import React from "react";
 import {
-  KeyboardAvoidingView,
-  View,
-  Text,
+  KeyboardAvoidingView, Text,
   TextInput,
-  TouchableOpacity,
+  TouchableOpacity, View
 } from "react-native";
 
 import styles from "./styles";
@@ -25,7 +23,7 @@ export default function Home() {
           autoCapitalize="none"
           autoCompleteType="email"
           autoCorrect={false}
-          onChangeText={() => {}}
+          onChangeText={() => { }}
         />
 
         <TextInput
@@ -37,7 +35,7 @@ export default function Home() {
           autoCompleteType="password"
           autoCorrect={false}
           secureTextEntry={true}
-          onChangeText={() => {}}
+          onChangeText={() => { }}
         />
 
         <TouchableOpacity style={styles.buttonSubmit}>

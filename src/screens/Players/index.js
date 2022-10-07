@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
-import { List, IconButton, Divider } from "react-native-paper";
+import { Image, Text, View } from "react-native";
+import { Divider, IconButton, List } from "react-native-paper";
 import { styles } from "./style";
 
 const Players = () => {

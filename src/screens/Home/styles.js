@@ -7,7 +7,7 @@ export default styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  
+
 
   input: {
     backgroundColor: "#FFF",
