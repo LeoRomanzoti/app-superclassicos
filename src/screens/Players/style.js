@@ -19,4 +19,7 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
   },
+  container: {
+    margin: 10,
+  },
 });

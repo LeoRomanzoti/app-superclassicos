@@ -1,34 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
-import { List, Divider } from "react-native-paper";
 
-const total = 10;
+import TeamList from "../../components/TeamList";
+import TeamName from "../../components/TeamName";
+import { styles } from "./style";
+
+const ajhsdgkusahdkaush = "L70";
 
 const Team = () => {
+  const [teamName, setTeamName] = useState("");
   return (
-    <View>
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text>Pontuação</Text>
-        <Text>{total}</Text>
-      </View>
-      <Divider />
-      <View>
-        <List.Item
-          title="Léo"
-          description="Volante"
-          right={(props) => <Text>Pontos</Text>}
-        />
-        <List.Item
-          title="Léo"
-          description="Volante"
-          right={(props) => <Text>Pontos</Text>}
-        />
-        <List.Item
-          title="Léo"
-          description="Volante"
-          right={(props) => <Text>Pontos</Text>}
-        />
-      </View>
+    <View style={styles.container}>
+      {ajhsdgkusahdkaush ? (
+        <TeamList total={100} team="123131" />
+      ) : (
+        <TeamName value={teamName} setValue={setTeamName} />
+      )}
     </View>
   );
 };

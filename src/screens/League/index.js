@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { IconButton, List } from "react-native-paper";
+import { styles } from "./style";
 
 const League = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <List.Item
         title="Nome do Time"
         titleStyle={{ fontSize: 23 }}

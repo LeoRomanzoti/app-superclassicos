@@ -5,7 +5,7 @@ import { styles } from "./style";
 
 const Players = () => {
   return (
-    <View>
+    <View style={styles.container}>
       <Text style={styles.title}>Monte seu time:</Text>
       <Text style={styles.subTitle}>
         Você deverá montar um time no esquema 4-4-2 (1 goleiro, 2 zagueiros, 2
