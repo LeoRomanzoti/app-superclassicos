@@ -1,8 +1,8 @@
 import React from "react";
 import { Alert, Modal, StyleSheet, View } from "react-native";
-import { List, IconButton, Button } from "react-native-paper";
+import { Button, IconButton, List } from "react-native-paper";
 
-const CustomModal = ({ modalVisible, setModalVisible }) => {
+const CustomModal = ({ modalVisible, setModalVisible, pointsList }) => {
   return (
     <View>
       <Modal
@@ -16,26 +16,15 @@ const CustomModal = ({ modalVisible, setModalVisible }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <List.Item
-              title="Gol"
-              right={(props) => <IconButton icon="plus" />}
-            />
-            <List.Item
-              title="Falta"
-              right={(props) => <IconButton icon="plus" />}
-            />
-            <List.Item
-              title="Penalti Cometido"
-              right={(props) => <IconButton icon="plus" />}
-            />
-            <List.Item
-              title="Penalti Sofrido"
-              right={(props) => <IconButton icon="plus" />}
-            />
-            <List.Item
-              title="Penalti Defendido"
-              right={(props) => <IconButton icon="plus" />}
-            />
+            {pointsList.map(point => (
+
+              <List.Item
+                key={point?.id}
+                title={point?.label}
+                right={(props) => <IconButton icon="plus" />}
+              />
+            ))}
+
             <Button
               style={{ marginTop: 30 }}
               mode="contained"

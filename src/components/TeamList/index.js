@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { List, Divider } from "react-native-paper";
+import { Text, View } from "react-native";
+import { Divider, List } from "react-native-paper";
 
-const TeamList = ({ total, team }) => {
+const TeamList = ({ total, team, players }) => {
   return (
     <View>
       <Text style={{ textAlign: "center" }}>{team}</Text>
@@ -12,21 +12,22 @@ const TeamList = ({ total, team }) => {
       </View>
       <Divider />
       <View>
-        <List.Item
-          title="Léo"
-          description="Volante"
-          right={(props) => <Text>Pontos</Text>}
-        />
-        <List.Item
-          title="Léo"
-          description="Volante"
-          right={(props) => <Text>Pontos</Text>}
-        />
-        <List.Item
-          title="Léo"
-          description="Volante"
-          right={(props) => <Text>Pontos</Text>}
-        />
+        {players.map(player => {
+          const playerData = player?.chosenPlayer?.player
+          const point = player?.chosenPlayer?.score
+
+
+          return (
+
+            <List.Item
+              key={player?.id}
+              title={playerData?.name}
+              description={playerData?.position}
+              right={(props) => <Text>{point}</Text>}
+            />
+          )
+        })}
+
       </View>
     </View>
   );

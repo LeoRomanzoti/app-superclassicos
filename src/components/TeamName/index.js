@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
-import { TextInput, Button } from "react-native-paper";
+import { Button, TextInput } from "react-native-paper";
 
-const TeamName = ({ value, setValue }) => {
+const TeamName = ({ value, setValue, handleCreateTeam }) => {
   return (
     <View>
       <TextInput
@@ -10,7 +10,7 @@ const TeamName = ({ value, setValue }) => {
         value={value}
         onChangeText={(text) => setValue(text)}
       />
-      <Button mode="contained">Criar time</Button>
+      <Button onPress={() => handleCreateTeam()} mode="contained">Criar time</Button>
     </View>
   );
 };
