@@ -1,13 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import Alert from "./src/components/Alert";
+import GlobalProvider from "./src/contexts/global";
 import Routes from "./src/routes";
-import Players from "./src/screens/Players";
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Routes />
+      <GlobalProvider>
+        <Routes />
+        <Alert />
+      </GlobalProvider>
     </NavigationContainer>
   );
 }
