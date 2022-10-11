@@ -1,16 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View } from "react-native";
 
 import TeamList from "../../components/TeamList";
 import TeamName from "../../components/TeamName";
+import { GlobalContext } from "../../contexts/global";
 import api from "../../servers/api";
 import { styles } from "./style";
 
-const userId = '35fe8001-a6d5-4d43-8fb5-cf1278c9211f'
 
 const Team = () => {
+  const { userId } = useContext(GlobalContext)
   const [teamName, setTeamName] = useState("");
-
+  const [refreshing, setRefreshing] = useState(false);
   const [team, setTeam] = useState(null)
 
   useEffect(() => {
@@ -18,20 +19,19 @@ const Team = () => {
       try {
         const { data } = await api.get(`/users/${userId}/teams`)
         setTeam(data)
-
       } catch (error) {
         console.log(error)
       }
+      setRefreshing(false)
     }
     loadTeam()
-  }, [])
+  }, [refreshing])
 
   const handleCreateTeam = useCallback(async () => {
     try {
       const data = { team_name: teamName }
       const response = await api.post(`/users/${userId}/teams`, data)
       setTeam(response.data)
-
     } catch (error) {
       console.log(error)
     }
@@ -40,9 +40,19 @@ const Team = () => {
   return (
     <View style={styles.container}>
       {team ? (
-        <TeamList total={team.score} team={team.name} players={team.players} />
+        <TeamList
+          total={team.score}
+          team={team.name}
+          players={team.players}
+          setRefreshing={setRefreshing}
+          refreshing={refreshing}
+        />
       ) : (
-        <TeamName value={teamName} setValue={setTeamName} handleCreateTeam={handleCreateTeam} />
+        <TeamName
+          value={teamName}
+          setValue={setTeamName}
+          handleCreateTeam={handleCreateTeam}
+        />
       )}
     </View>
   );
