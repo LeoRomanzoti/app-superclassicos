@@ -1,12 +1,17 @@
 import React, { useContext } from "react";
-import { Animated, RefreshControl, Text, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  RefreshControl,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Divider, IconButton, List, useTheme } from "react-native-paper";
 
-import { FlatList } from "react-native-gesture-handler";
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import { GlobalContext } from "../../contexts/global";
 import makeStyles from "./style";
-
 
 const TeamList = ({ total, team, players, setRefreshing, refreshing }) => {
   const { colors } = useTheme();
@@ -16,11 +21,10 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing }) => {
     <View>
       <Text style={styles.teamName}>{team}</Text>
       <View style={styles.teamScore}>
-        <Text>Pontuação</Text>
-        <Text>{total}</Text>
+        <Text style={styles.points}>Pontuação Total</Text>
+        <Text style={styles.points}>{total}</Text>
       </View>
-      <Divider />
-
+      <Divider style={styles.divider} />
 
       {/* NOVO JEITO DE FAZERMOS O .map() */}
       {/* PARA CONSEGUIRMOS TEM UM SCROLL PARA BAIXO NA NOSSA LISTA, PRECISAMOS
@@ -39,25 +43,32 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing }) => {
           />
         }
         data={players}
-        keyExtractor={player => player?.id}
-        renderItem={
-          ({ item }) => {
-            const playerData = item?.chosenPlayer?.player
-            const point = item?.chosenPlayer?.score
-            return (
-
-              // Swipeable é o COMPONENTE que consegue fazer o efeito do "push" lateral 
+        keyExtractor={(player) => player?.id}
+        renderItem={({ item }) => {
+          const playerData = item?.chosenPlayer?.player;
+          const point = item?.chosenPlayer?.score;
+          return (
+            // Swipeable é o COMPONENTE que consegue fazer o efeito do "push" lateral
+            <GestureHandlerRootView>
               <Swipeable
                 key={item?.id}
-                renderRightActions={(progress, dragX) => <RenderRightActions progress={progress} dragX={dragX} styles={styles} />}>
+                renderRightActions={(progress, dragX) => (
+                  <RenderRightActions
+                    progress={progress}
+                    dragX={dragX}
+                    styles={styles}
+                  />
+                )}
+              >
                 <List.Item
                   title={playerData?.name}
                   description={playerData?.position}
                   right={(props) => <Text>{point}</Text>}
                 />
               </Swipeable>
-            )
-          }}
+            </GestureHandlerRootView>
+          );
+        }}
       />
     </View>
   );
@@ -70,20 +81,15 @@ const RenderRightActions = ({ progress, dragX, styles }) => {
   const scale = dragX.interpolate({
     inputRange: [-50, 0],
     outputRange: [1, 0],
-    extrapolate: 'clamp',
+    extrapolate: "clamp",
   });
 
   return (
     <TouchableOpacity onPress={vibrate}>
-      <Animated.View style={[
-        styles.deleteButton,
-        { transform: [{ scaleX: scale }] }
-      ]}>
-        <IconButton
-          iconColor="white"
-          icon="delete"
-          size={30}
-        />
+      <Animated.View
+        style={[styles.deleteButton, { transform: [{ scaleX: scale }] }]}
+      >
+        <IconButton iconColor="white" icon="delete" size={30} />
       </Animated.View>
     </TouchableOpacity>
   );

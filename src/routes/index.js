@@ -24,7 +24,9 @@ const Routes = () => {
             component={Team}
             options={{
               tabBarLabel: "Meu Time",
-              tabBarIcon: ({ color }) => <IconButton icon="soccer-field" />,
+              tabBarIcon: ({ color }) => (
+                <IconButton icon="soccer-field" iconColor="green" size={35} />
+              ),
             }}
           />
           <Tab.Screen
@@ -32,7 +34,9 @@ const Routes = () => {
             component={League}
             options={{
               tabBarLabel: "Liga",
-              tabBarIcon: ({ color }) => <IconButton icon="trophy" />,
+              tabBarIcon: ({ color }) => (
+                <IconButton icon="trophy" iconColor="gold" size={35} />
+              ),
             }}
           />
 
@@ -41,7 +45,9 @@ const Routes = () => {
             component={Players}
             options={{
               tabBarLabel: "Adicionar",
-              tabBarIcon: ({ color }) => <IconButton icon="account-plus" />,
+              tabBarIcon: ({ color }) => (
+                <IconButton icon="account-plus" iconColor="red" size={35} />
+              ),
             }}
           />
           {admin && (
@@ -50,7 +56,9 @@ const Routes = () => {
               component={Points}
               options={{
                 tabBarLabel: "Pontuação",
-                tabBarIcon: ({ color }) => <IconButton icon="account-plus" />,
+                tabBarIcon: ({ color }) => (
+                  <IconButton icon="account-edit" iconColor="blue" size={35} />
+                ),
               }}
             />
           )}
