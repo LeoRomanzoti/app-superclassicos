@@ -1,13 +1,13 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Image, Text, View } from "react-native";
-import { Divider, IconButton, List, useTheme } from "react-native-paper";
+import { useTheme } from "react-native-paper";
 import CardPlayer from "../../components/CardPlayer";
 import { GlobalContext } from "../../contexts/global";
 import api from "../../servers/api";
 import { makeStyles } from "./style";
 
 const Players = () => {
-  const { userId, teamId, setAlertMsg, onToggleSnackBar } =
+  const { userId, teamId, setAlertMsg, onToggleSnackBar, vibrate } =
     useContext(GlobalContext);
 
   const { colors } = useTheme();
@@ -23,7 +23,9 @@ const Players = () => {
   }, []);
 
   const handleAddPlayer = useCallback(async (chosenPlayerId) => {
+
     try {
+      vibrate()
       const data = { chosen_player_id: chosenPlayerId };
       const response = await api.post(
         `/users/${userId}/teams/${teamId}/players`,
@@ -32,6 +34,8 @@ const Players = () => {
       setAlertMsg("Jogador adicionado");
       onToggleSnackBar(true);
     } catch (error) {
+      setAlertMsg(error?.response?.data?.message);
+      onToggleSnackBar(true);
       console.log(error);
     }
   }, []);

@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View } from "react-native";
-import { IconButton, List } from "react-native-paper";
-import CustomModal from "../../components/Modal";
-import api from "../../servers/api";
 import CardPlayer from "../../components/CardPlayer";
+import CustomModal from "../../components/Modal";
+import { GlobalContext } from "../../contexts/global";
+import api from "../../servers/api";
+
 
 const Points = () => {
   const [openModal, setOpenModal] = useState(false);
   const [players, setPlayers] = useState([]);
+  const [points, setPoints] = useState([]);
+  const [player, setPlayer] = useState("")
+
+  const { vibrate } = useContext(GlobalContext)
+
 
   useEffect(() => {
     async function loadPlayer() {
@@ -17,7 +23,6 @@ const Points = () => {
     loadPlayer();
   }, []);
 
-  const [points, setPoints] = useState([]);
 
   useEffect(() => {
     async function loadPoint() {
@@ -27,19 +32,39 @@ const Points = () => {
     loadPoint();
   }, []);
 
+  const handleOpenModal = useCallback((player) => {
+    setOpenModal(true)
+    setPlayer(player)
+  }, [])
+
+  const handleAddPoint = useCallback(async (pointId, pointValue, playerId) => {
+    try {
+      vibrate()
+      const data = { point_id: pointId, point_value: pointValue }
+      const response = await api.post(`/chosen-players/${playerId}/points`, data)
+      setOpenModal(false)
+    } catch (error) {
+      console.log(error);
+    }
+  }, [])
+
+
   return (
     <View>
       <CustomModal
         modalVisible={openModal}
         setModalVisible={setOpenModal}
         pointsList={points}
+        player={player}
+        handleAddPoint={handleAddPoint}
+
       />
       {players.map((player) => (
         <CardPlayer
           key={player?.chosenPlayerId}
           title={player?.player?.name}
           description={player?.player?.position}
-          addPlayer={() => setOpenModal(true)}
+          addPlayer={() => handleOpenModal(player)}
         />
       ))}
     </View>

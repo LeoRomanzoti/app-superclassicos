@@ -9,10 +9,10 @@ import { styles } from "./style";
 
 
 const Team = () => {
-  const { userId } = useContext(GlobalContext)
+  const { userId, team, setTeam } = useContext(GlobalContext)
   const [teamName, setTeamName] = useState("");
   const [refreshing, setRefreshing] = useState(false);
-  const [team, setTeam] = useState(null)
+
 
   useEffect(() => {
     async function loadTeam() {

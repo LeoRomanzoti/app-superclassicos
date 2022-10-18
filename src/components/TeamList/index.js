@@ -4,7 +4,7 @@ import {
   RefreshControl,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { Divider, IconButton, List, useTheme } from "react-native-paper";
 
