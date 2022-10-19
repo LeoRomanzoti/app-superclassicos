@@ -23,9 +23,8 @@ const Players = () => {
   }, []);
 
   const handleAddPlayer = useCallback(async (chosenPlayerId) => {
-
     try {
-      vibrate()
+      vibrate();
       const data = { chosen_player_id: chosenPlayerId };
       const response = await api.post(
         `/users/${userId}/teams/${teamId}/players`,

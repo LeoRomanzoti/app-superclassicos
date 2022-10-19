@@ -5,15 +5,13 @@ import CustomModal from "../../components/Modal";
 import { GlobalContext } from "../../contexts/global";
 import api from "../../servers/api";
 
-
 const Points = () => {
   const [openModal, setOpenModal] = useState(false);
   const [players, setPlayers] = useState([]);
   const [points, setPoints] = useState([]);
-  const [player, setPlayer] = useState("")
+  const [player, setPlayer] = useState("");
 
-  const { vibrate } = useContext(GlobalContext)
-
+  const { vibrate, setAlertMsg, onToggleSnackBar } = useContext(GlobalContext);
 
   useEffect(() => {
     async function loadPlayer() {
@@ -22,7 +20,6 @@ const Points = () => {
     }
     loadPlayer();
   }, []);
-
 
   useEffect(() => {
     async function loadPoint() {
@@ -33,21 +30,31 @@ const Points = () => {
   }, []);
 
   const handleOpenModal = useCallback((player) => {
-    setOpenModal(true)
-    setPlayer(player)
-  }, [])
+    setOpenModal(true);
+    setPlayer(player);
+  }, []);
 
-  const handleAddPoint = useCallback(async (pointId, pointValue, playerId) => {
-    try {
-      vibrate()
-      const data = { point_id: pointId, point_value: pointValue }
-      const response = await api.post(`/chosen-players/${playerId}/points`, data)
-      setOpenModal(false)
-    } catch (error) {
-      console.log(error);
-    }
-  }, [])
-
+  const handleAddPoint = useCallback(
+    async (pointId, pointValue, playerId, point) => {
+      try {
+        vibrate();
+        const data = { point_id: pointId, point_value: pointValue };
+        const response = await api.post(
+          `/chosen-players/${playerId}/points`,
+          data
+        );
+        setOpenModal(false);
+        setPlayer(player);
+        setAlertMsg(
+          `${point} adicionado para o jogador ${player.player.name}.`
+        );
+        onToggleSnackBar(true);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [player]
+  );
 
   return (
     <View>
@@ -57,7 +64,6 @@ const Points = () => {
         pointsList={points}
         player={player}
         handleAddPoint={handleAddPoint}
-
       />
       {players.map((player) => (
         <CardPlayer

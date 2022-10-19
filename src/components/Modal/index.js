@@ -1,9 +1,15 @@
 import React from "react";
-import { Alert, Modal, StyleSheet, Text, View } from "react-native";
-import { Button, IconButton, List } from "react-native-paper";
+import { Alert, Modal, Text, View } from "react-native";
+import { Button, IconButton, List, useTheme } from "react-native-paper";
+import { styles } from "./style";
 
-const CustomModal = ({ modalVisible, setModalVisible, pointsList, player, handleAddPoint }) => {
-
+const CustomModal = ({
+  modalVisible,
+  setModalVisible,
+  pointsList,
+  player,
+  handleAddPoint,
+}) => {
   return (
     <View>
       <Modal
@@ -17,14 +23,30 @@ const CustomModal = ({ modalVisible, setModalVisible, pointsList, player, handle
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text>{player?.player?.name}</Text>
-            {pointsList.map(point => (
-
-              <List.Item
-                key={point?.id}
-                title={point?.label}
-                right={(props) => <IconButton onPress={() => handleAddPoint(point?.id, point?.value, player?.chosenPlayerId)} icon="plus" />}
-              />
+            <Text style={styles.player}>{player?.player?.name}</Text>
+            {pointsList.map((point) => (
+              <View key={point?.id} style={styles.listModal}>
+                <List.Item
+                  style={styles.list}
+                  title={point?.label}
+                  right={(props) => (
+                    <View style={styles.modalButton}>
+                      <IconButton
+                        onPress={() =>
+                          handleAddPoint(
+                            point?.id,
+                            point?.value,
+                            player?.chosenPlayerId,
+                            point?.label
+                          )
+                        }
+                        icon="plus"
+                        iconColor="white"
+                      />
+                    </View>
+                  )}
+                />
+              </View>
             ))}
 
             <Button
@@ -42,43 +64,3 @@ const CustomModal = ({ modalVisible, setModalVisible, pointsList, player, handle
 };
 
 export default CustomModal;
-
-const styles = StyleSheet.create({
-  centeredView: {
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-  },
-});

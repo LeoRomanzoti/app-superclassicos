@@ -10,11 +10,11 @@ export default function GlobalProvider({ children }) {
   const onToggleSnackBar = () => setVisibleAlert(!visibleAlert);
 
   // Global
-  const userId = "78913335-ce10-4ffa-8e52-31898f7cfbcb";
-  const teamId = "7266cae2-c205-4fe0-a7f2-6e2a3d16c174";
+  const userId = "5292db3f-49ed-4382-8386-73b1e51fc35f";
+  const teamId = "132d8efd-717b-4407-a284-9f4288190700";
 
   //Team
-  const [team, setTeam] = useState(null)
+  const [team, setTeam] = useState(null);
 
   // Vibrate
   const vibrate = () =>
@@ -30,7 +30,7 @@ export default function GlobalProvider({ children }) {
     setAlertMsg,
     vibrate,
     team,
-    setTeam
+    setTeam,
   };
 
   return (
