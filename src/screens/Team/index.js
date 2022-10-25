@@ -1,9 +1,10 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Alert, View } from "react-native";
+import { View } from "react-native";
 
 import TeamList from "../../components/TeamList";
 import TeamName from "../../components/TeamName";
 import { GlobalContext } from "../../contexts/global";
+import { getGenericData } from "../../contexts/storage";
 import api from "../../servers/api";
 import { styles } from "./style";
 
@@ -17,10 +18,8 @@ const Team = () => {
   useEffect(() => {
     async function loadTeam() {
       try {
-        const { data } = await api.get(`/users/${userId}/teams`, {
-          headers: { "Authorization": `Bearer ${token}` }
-        })
-        Alert.alert(data.name)
+        const user = await getGenericData('@user')
+        const { data } = await api.get(`/users/${user?.id}/teams`)
         setTeam(data)
       } catch (error) {
         console.log(error)
@@ -33,9 +32,7 @@ const Team = () => {
   const handleCreateTeam = useCallback(async () => {
     try {
       const data = { team_name: teamName }
-      const response = await api.post(`/users/${userId}/teams`, data, {
-        headers: { "Authorization": `Bearer ${token}` }
-      })
+      const response = await api.post(`/users/${userId}/teams`, data)
       setTeam(response.data)
     } catch (error) {
       console.log(error)

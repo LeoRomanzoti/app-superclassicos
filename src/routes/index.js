@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IconButton } from "react-native-paper";
 import { GlobalContext } from "../contexts/global";
+import { getSingleData } from "../contexts/storage";
 import Home from "../screens/Home";
 import League from "../screens/League";
 import Players from "../screens/Players";
@@ -12,9 +13,18 @@ const Tab = createBottomTabNavigator();
 
 
 
-
 const Routes = () => {
-  const { isLogged, isAdmin } = useContext(GlobalContext)
+  const { isAdmin } = useContext(GlobalContext)
+  const [isLogged, setIsLogged] = useState(null)
+
+  useEffect(() => {
+    async function name() {
+      const isLogged = await getSingleData('@token')
+      setIsLogged(isLogged)
+    }
+    name()
+  }, [])
+
   return (
     <>
       {!isLogged ? (

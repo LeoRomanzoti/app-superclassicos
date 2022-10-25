@@ -3,11 +3,12 @@ import { Image, Text, View } from "react-native";
 import { useTheme } from "react-native-paper";
 import CardPlayer from "../../components/CardPlayer";
 import { GlobalContext } from "../../contexts/global";
+import { getGenericData } from "../../contexts/storage";
 import api from "../../servers/api";
 import { makeStyles } from "./style";
 
 const Players = () => {
-  const { userId, teamId, setAlertMsg, onToggleSnackBar, vibrate } =
+  const { team, setAlertMsg, onToggleSnackBar, vibrate } =
     useContext(GlobalContext);
 
   const { colors } = useTheme();
@@ -26,8 +27,9 @@ const Players = () => {
     try {
       vibrate();
       const data = { chosen_player_id: chosenPlayerId };
+      const user = await getGenericData('@user')
       const response = await api.post(
-        `/users/${userId}/teams/${teamId}/players`,
+        `/users/${user?.id}/teams/${team?.corneteiroTeamId}/players`,
         data
       );
       setAlertMsg("Jogador adicionado");

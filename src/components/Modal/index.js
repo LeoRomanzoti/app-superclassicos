@@ -1,6 +1,6 @@
 import React from "react";
-import { Alert, Modal, Text, View } from "react-native";
-import { Button, IconButton, List, useTheme } from "react-native-paper";
+import { Modal, Text, View } from "react-native";
+import { Button, IconButton, List } from "react-native-paper";
 import { styles } from "./style";
 
 const CustomModal = ({
@@ -17,7 +17,6 @@ const CustomModal = ({
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >

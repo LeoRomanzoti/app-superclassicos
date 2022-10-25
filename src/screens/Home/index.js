@@ -7,6 +7,7 @@ import {
 import { useForm } from "react-hook-form";
 import { Button } from "react-native-paper";
 import { GlobalContext } from "../../contexts/global";
+import { storeSingleData } from "../../contexts/storage";
 import api from "../../servers/api";
 import styles from "./styles";
 
@@ -38,15 +39,17 @@ export default function Home() {
     async (data) => {
       try {
         vibrate();
-        const novadata = {
+        const payload = {
           user_id: user.id,
           code: data.code
         }
-        data['user_id'] = user?.id
         const response = await api.post(
           `/validation`,
-          novadata
+          payload
         );
+        storeSingleData('@token', response.data?.token)
+        storeGenericData('@user', response.data?.user)
+        setUser(response.data?.user)
         setIsLogged(true)
         setToken(response.data.token)
       } catch (error) {
