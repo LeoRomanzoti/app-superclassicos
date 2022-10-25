@@ -40,4 +40,5 @@ export default styles = StyleSheet.create({
   registerText: {
     color: "#FFF",
   },
+  button: {}
 });

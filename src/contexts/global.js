@@ -1,17 +1,37 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 import { Vibration } from "react-native";
 
 export const GlobalContext = createContext({});
 
 export default function GlobalProvider({ children }) {
+  // Login
+  const [isLogged, setIsLogged] = useState(false)
+  const [user, setUser] = useState(null)
+  const [token, setToken] = useState(null)
+
   // Alert
   const [visibleAlert, setVisibleAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const onToggleSnackBar = () => setVisibleAlert(!visibleAlert);
 
-  // Global
-  const userId = "5292db3f-49ed-4382-8386-73b1e51fc35f";
-  const teamId = "132d8efd-717b-4407-a284-9f4288190700";
+  //Admin
+  const isAdmin = () => useMemo(() => {
+    let isAdmin = false;
+
+    user?.scopes.map((scope) => {
+      if (scope === "admin") {
+        isAdmin = true
+      }
+
+    })
+    return isAdmin
+  }, [user])
+
+  //Auth
+  const authHeader = () => useMemo(() => {
+    const header = { "Authorization": `Bearer ${token}` };
+    return header
+  }, [token])
 
   //Team
   const [team, setTeam] = useState(null);
@@ -22,8 +42,8 @@ export default function GlobalProvider({ children }) {
 
   // OBJETO GLOBAL
   const global = {
-    userId,
-    teamId,
+    isLogged,
+    isAdmin,
     visibleAlert,
     onToggleSnackBar,
     alertMsg,
@@ -31,6 +51,12 @@ export default function GlobalProvider({ children }) {
     vibrate,
     team,
     setTeam,
+    user,
+    setUser,
+    setIsLogged,
+    token,
+    setToken,
+    authHeader
   };
 
   return (

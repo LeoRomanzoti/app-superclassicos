@@ -1,21 +1,23 @@
-import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Players from "../screens/Players";
+import React, { useContext } from "react";
 import { IconButton } from "react-native-paper";
-import Team from "../screens/Team";
-import League from "../screens/League";
-import Points from "../screens/Points";
+import { GlobalContext } from "../contexts/global";
 import Home from "../screens/Home";
+import League from "../screens/League";
+import Players from "../screens/Players";
+import Points from "../screens/Points";
+import Team from "../screens/Team";
 
 const Tab = createBottomTabNavigator();
 
-const admin = true;
-const logado = true;
+
+
 
 const Routes = () => {
+  const { isLogged, isAdmin } = useContext(GlobalContext)
   return (
     <>
-      {!logado ? (
+      {!isLogged ? (
         <Home />
       ) : (
         <Tab.Navigator>
@@ -50,7 +52,7 @@ const Routes = () => {
               ),
             }}
           />
-          {admin && (
+          {isAdmin && (
             <Tab.Screen
               name="Pontuação"
               component={Points}
