@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { View } from "react-native";
 import CardPlayer from "../../components/CardPlayer";
+import Container from "../../components/Container";
 import CustomModal from "../../components/Modal";
 import { GlobalContext } from "../../contexts/global";
 import api from "../../servers/api";
@@ -57,7 +57,7 @@ const Points = () => {
   );
 
   return (
-    <View>
+    <Container>
       <CustomModal
         modalVisible={openModal}
         setModalVisible={setOpenModal}
@@ -73,7 +73,7 @@ const Points = () => {
           addPlayer={() => handleOpenModal(player)}
         />
       ))}
-    </View>
+    </Container>
   );
 };
 

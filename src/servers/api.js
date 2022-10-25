@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getSingleData } from "../contexts/storage";
 
-const api = axios.create({ baseURL: "http://44.212.47.51:3000" });
+const api = axios.create({ baseURL: "http://54.92.154.237:3000" });
 
 api.interceptors.request.use(
     async (config) => {

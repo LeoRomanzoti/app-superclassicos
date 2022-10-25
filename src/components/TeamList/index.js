@@ -18,7 +18,7 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing }) => {
   const styles = makeStyles(colors);
 
   return (
-    <View>
+    <>
       <Text style={styles.teamName}>{team}</Text>
       <View style={styles.teamScore}>
         <Text style={styles.points}>Pontuação Total</Text>
@@ -70,7 +70,7 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing }) => {
           );
         }}
       />
-    </View>
+    </>
   );
 };
 

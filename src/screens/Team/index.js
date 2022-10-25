@@ -1,12 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { View } from "react-native";
+import Container from "../../components/Container";
 
 import TeamList from "../../components/TeamList";
 import TeamName from "../../components/TeamName";
 import { GlobalContext } from "../../contexts/global";
 import { getGenericData } from "../../contexts/storage";
 import api from "../../servers/api";
-import { styles } from "./style";
 
 
 const Team = () => {
@@ -41,7 +40,7 @@ const Team = () => {
   }, [teamName])
 
   return (
-    <View style={styles.container}>
+    <Container>
       {team?.corneteiroTeamId ? (
         <TeamList
           total={team.score}
@@ -57,7 +56,7 @@ const Team = () => {
           handleCreateTeam={handleCreateTeam}
         />
       )}
-    </View>
+    </Container>
   );
 };
 
