@@ -7,6 +7,7 @@ const Alert = () => {
 
     return (
         <Snackbar
+            duration={5000}
             style={{ marginBottom: 60 }}
             visible={visibleAlert}
             onDismiss={onToggleSnackBar}

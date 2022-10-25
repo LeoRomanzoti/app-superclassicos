@@ -18,11 +18,11 @@ const Routes = () => {
   const [isLogged, setIsLogged] = useState(null)
 
   useEffect(() => {
-    async function name() {
+    async function loadIsLogged() {
       const isLogged = await getSingleData('@token')
       setIsLogged(isLogged)
     }
-    name()
+    loadIsLogged()
   }, [])
 
   return (

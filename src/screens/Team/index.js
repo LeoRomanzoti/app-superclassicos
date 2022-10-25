@@ -10,7 +10,7 @@ import { styles } from "./style";
 
 
 const Team = () => {
-  const { userId, team, setTeam, authHeader, token } = useContext(GlobalContext)
+  const { team, setTeam } = useContext(GlobalContext)
   const [teamName, setTeamName] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
@@ -32,7 +32,8 @@ const Team = () => {
   const handleCreateTeam = useCallback(async () => {
     try {
       const data = { team_name: teamName }
-      const response = await api.post(`/users/${userId}/teams`, data)
+      const user = await getGenericData('@user')
+      const response = await api.post(`/users/${user?.id}/teams`, data)
       setTeam(response.data)
     } catch (error) {
       console.log(error)
