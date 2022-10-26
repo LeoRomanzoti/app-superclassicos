@@ -1,44 +1,54 @@
 import { StyleSheet } from "react-native";
 
-export default styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+export const makeStyles = (colors) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+    },
 
+    input: {
+      backgroundColor: "#e4e4e4",
+      width: "90%",
+      marginBottom: 14,
+      fontSize: 22,
+      borderRadius: 7,
+      padding: 10,
+    },
 
+    buttonCode: {
+      backgroundColor: colors.primary,
+    },
 
-  input: {
-    backgroundColor: "#FFF",
-    width: "90%",
-    marginBottom: 15,
-    color: "#222",
-    fontSize: 22,
-    borderRadius: 7,
-    padding: 10,
-  },
+    button: {
+      backgroundColor: colors.primary,
+    },
 
-  buttonSubmit: {
-    backgroundColor: "#59BFFF",
-    width: "90%",
-    height: 45,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 7,
-  },
+    image: {
+      width: 280,
+      height: 280,
+      borderRadius: 300 / 2,
+    },
 
-  submitText: {
-    color: "#FFF",
-    fontSize: 19,
-  },
+    title: {
+      fontSize: 20,
+      textAlign: "center",
+      color: colors.primary,
+      fontWeight: "bold",
+    },
 
-  buttonRegister: {
-    marginTop: 10,
-  },
+    subTitle: {
+      fontSize: 14,
+      fontWeight: "300",
+      textAlign: "center",
+    },
 
-  registerText: {
-    color: "#FFF",
-  },
-  button: {}
-});
+    index: {
+      marginBottom: 15,
+    },
+
+    middle: {
+      marginBottom: 15,
+    },
+  });

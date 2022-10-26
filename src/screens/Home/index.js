@@ -1,39 +1,39 @@
 import React, { useCallback, useContext, useState } from "react";
 import {
-  KeyboardAvoidingView, Text,
-  TextInput, View
+  KeyboardAvoidingView,
+  Text,
+  TextInput,
+  View,
+  Image,
 } from "react-native";
 
 import { useForm } from "react-hook-form";
-import { Button } from "react-native-paper";
+import { Button, useTheme } from "react-native-paper";
 import { GlobalContext } from "../../contexts/global";
 import { storeSingleData } from "../../contexts/storage";
 import api from "../../servers/api";
-import styles from "./styles";
+import { makeStyles } from "./styles";
 
 export default function Home() {
   const { register, handleSubmit, setValue } = useForm();
-  const { vibrate, setUser, user, setIsLogged, setToken } = useContext(GlobalContext)
+  const { vibrate, setUser, user, setIsLogged, setToken } =
+    useContext(GlobalContext);
 
-  const [codeSent, setCodeSent] = useState(false)
+  const { colors } = useTheme();
+  const styles = makeStyles(colors);
 
+  const [codeSent, setCodeSent] = useState(false);
 
-  const handleLogin = useCallback(
-    async (data) => {
-      try {
-        vibrate();
-        const response = await api.post(
-          `/login`,
-          data
-        );
-        setUser(response.data)
-        setCodeSent(true)
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    []
-  );
+  const handleLogin = useCallback(async (data) => {
+    try {
+      vibrate();
+      const response = await api.post(`/login`, data);
+      setUser(response.data);
+      setCodeSent(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
 
   const handleValidate = useCallback(
     async (data) => {
@@ -41,17 +41,14 @@ export default function Home() {
         vibrate();
         const payload = {
           user_id: user.id,
-          code: data.code
-        }
-        const response = await api.post(
-          `/validation`,
-          payload
-        );
-        storeSingleData('@token', response.data?.token)
-        storeGenericData('@user', response.data?.user)
-        setUser(response.data?.user)
-        setIsLogged(true)
-        setToken(response.data.token)
+          code: data.code,
+        };
+        const response = await api.post(`/validation`, payload);
+        storeSingleData("@token", response.data?.token);
+        storeGenericData("@user", response.data?.user);
+        setUser(response.data?.user);
+        setIsLogged(true);
+        setToken(response.data.token);
       } catch (error) {
         console.log(error);
       }
@@ -59,14 +56,24 @@ export default function Home() {
     [user]
   );
 
-
   return (
     <>
       <KeyboardAvoidingView style={styles.container}>
-        <View >
-          <Text>LOGO</Text>
+        <View style={styles.index}>
+          <Text style={styles.title}>
+            Bem-vindo ao Cartola do SuperClássico.
+          </Text>
+          <Text style={styles.subTitle}>
+            Digite seu nome e seu número de telefone para receber o código e ter
+            acesso ao app para criar seu time.
+          </Text>
         </View>
-
+        <View style={styles.middle}>
+          <Image
+            source={require("../../../assets/logo-superclassicos.png")}
+            style={styles.image}
+          />
+        </View>
 
         <TextInput
           style={styles.input}
@@ -85,7 +92,11 @@ export default function Home() {
           textContentType="telephoneNumber"
           autoCapitalize="none"
           onChangeText={(text) => setValue("user_phone", text)}
-          {...register("user_phone", { required: true, maxLength: 11, minLength: 11 })}
+          {...register("user_phone", {
+            required: true,
+            maxLength: 11,
+            minLength: 11,
+          })}
         />
 
         {codeSent && (
@@ -100,12 +111,20 @@ export default function Home() {
         )}
 
         {!codeSent ? (
-          <Button onPress={handleSubmit(handleLogin)} style={styles.buttonRegister} mode="contained">
-            <Text style={styles.registerText}>Enviar Código</Text>
+          <Button
+            onPress={handleSubmit(handleLogin)}
+            style={styles.buttonCode}
+            mode="contained"
+          >
+            <Text>Enviar Código</Text>
           </Button>
         ) : (
-          <Button onPress={handleSubmit(handleValidate)} style={styles.button} mode="contained">
-            <Text >Entrar</Text>
+          <Button
+            onPress={handleSubmit(handleValidate)}
+            style={styles.button}
+            mode="contained"
+          >
+            <Text>Entrar</Text>
           </Button>
         )}
       </KeyboardAvoidingView>

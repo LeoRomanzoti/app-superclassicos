@@ -34,6 +34,7 @@ export const makeStyles = (colors) =>
     position: {
       fontSize: 15,
       color: colors.secondary,
+      fontWeight: "bold",
     },
     container: {
       margin: 10,

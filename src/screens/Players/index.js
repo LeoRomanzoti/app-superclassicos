@@ -27,7 +27,7 @@ const Players = () => {
     try {
       vibrate();
       const data = { chosen_player_id: chosenPlayerId };
-      const user = await getGenericData('@user')
+      const user = await getGenericData("@user");
       const response = await api.post(
         `/users/${user?.id}/teams/${team?.corneteiroTeamId}/players`,
         data
@@ -45,7 +45,7 @@ const Players = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Monte seu time:</Text>
       <Text style={styles.subTitle}>
-        Você deverá montar um time no esquema 4-2-2-2.
+        Você deverá montar um time no esquema 4-4-2.
       </Text>
       <Text style={styles.description}>
         1 goleiro, 2 zagueiros, 2 laterais, 2 volantes, 2 meias e 2 atacantes.

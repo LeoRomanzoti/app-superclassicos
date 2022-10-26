@@ -11,23 +11,21 @@ import Team from "../screens/Team";
 
 const Tab = createBottomTabNavigator();
 
-
-
 const Routes = () => {
-  const { isAdmin } = useContext(GlobalContext)
-  const [isLogged, setIsLogged] = useState(null)
+  const { isAdmin } = useContext(GlobalContext);
+  const [isLogged, setIsLogged] = useState(null);
 
   useEffect(() => {
     async function loadIsLogged() {
-      const isLogged = await getSingleData('@token')
-      setIsLogged(isLogged)
+      const isLogged = await getSingleData("@token");
+      setIsLogged(isLogged);
     }
-    loadIsLogged()
-  }, [])
+    loadIsLogged();
+  }, []);
 
   return (
     <>
-      {!isLogged ? (
+      {isLogged ? (
         <Home />
       ) : (
         <Tab.Navigator>
