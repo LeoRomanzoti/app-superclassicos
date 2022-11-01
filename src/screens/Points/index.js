@@ -1,6 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { View } from "react-native";
+import { RefreshControl } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import CardPlayer from "../../components/CardPlayer";
+import Container from "../../components/Container";
 import CustomModal from "../../components/Modal";
 import { GlobalContext } from "../../contexts/global";
 import api from "../../servers/api";
@@ -10,6 +12,7 @@ const Points = () => {
   const [players, setPlayers] = useState([]);
   const [points, setPoints] = useState([]);
   const [player, setPlayer] = useState("");
+  const [refreshing, setRefreshing] = useState(false)
 
   const { vibrate, setAlertMsg, onToggleSnackBar } = useContext(GlobalContext);
 
@@ -17,9 +20,10 @@ const Points = () => {
     async function loadPlayer() {
       const { data } = await api.get("/chosen-players");
       setPlayers([...data]);
+      setRefreshing(false)
     }
     loadPlayer();
-  }, []);
+  }, [refreshing]);
 
   useEffect(() => {
     async function loadPoint() {
@@ -57,7 +61,7 @@ const Points = () => {
   );
 
   return (
-    <View>
+    <Container>
       <CustomModal
         modalVisible={openModal}
         setModalVisible={setOpenModal}
@@ -65,15 +69,27 @@ const Points = () => {
         player={player}
         handleAddPoint={handleAddPoint}
       />
-      {players.map((player) => (
-        <CardPlayer
-          key={player?.chosenPlayerId}
-          title={player?.player?.name}
-          description={player?.player?.position}
-          addPlayer={() => handleOpenModal(player)}
-        />
-      ))}
-    </View>
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => setRefreshing(true)}
+          />
+        }
+        data={players}
+        keyExtractor={(team) => team?.chosenPlayerId}
+        renderItem={({ item, index }) => {
+          return (
+            <CardPlayer
+              key={item?.chosenPlayerId}
+              title={item?.player?.name}
+              description={item?.player?.position}
+              addPlayer={() => handleOpenModal(item)}
+            />
+          );
+        }}
+      />
+    </Container>
   );
 };
 
