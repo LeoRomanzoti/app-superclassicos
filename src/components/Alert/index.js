@@ -1,14 +1,25 @@
-import React, { useContext } from 'react';
-import { Snackbar } from 'react-native-paper';
+import React, { useContext, useMemo } from 'react';
+import { Snackbar, useTheme } from 'react-native-paper';
 import { GlobalContext } from '../../contexts/global';
 
 const Alert = () => {
-    const { onToggleSnackBar, visibleAlert, alertMsg } = useContext(GlobalContext)
+    const { colors } = useTheme();
+    const { onToggleSnackBar, visibleAlert, alertMsg, alertError } = useContext(GlobalContext)
+
+    const styles = useMemo(() => {
+        let style = {
+            marginBottom: 60,
+        }
+        if (alertError) {
+            style['backgroundColor'] = colors.error
+        }
+        return style
+    }, [alertError])
 
     return (
         <Snackbar
             duration={5000}
-            style={{ marginBottom: 60 }}
+            style={styles}
             visible={visibleAlert}
             onDismiss={onToggleSnackBar}
             action={{

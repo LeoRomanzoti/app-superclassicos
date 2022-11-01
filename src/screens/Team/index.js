@@ -5,11 +5,12 @@ import TeamList from "../../components/TeamList";
 import TeamName from "../../components/TeamName";
 import { GlobalContext } from "../../contexts/global";
 import { getGenericData } from "../../contexts/storage";
+import { handlerError } from "../../helpers/handlerError";
 import api from "../../servers/api";
 
 
 const Team = () => {
-  const { team, setTeam, vibrate } = useContext(GlobalContext)
+  const { team, setTeam, vibrate, setAlert } = useContext(GlobalContext)
   const [teamName, setTeamName] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
@@ -35,6 +36,7 @@ const Team = () => {
       const response = await api.post(`/users/${user?.id}/teams`, data)
       setTeam(response.data)
     } catch (error) {
+      setAlert(handlerError(error), true)
       console.log(error)
     }
   }, [teamName])
@@ -44,13 +46,13 @@ const Team = () => {
       vibrate()
       const user = await getGenericData('@user')
       const response = await api.delete(`/users/${user?.id}/teams/${team?.corneteiroTeamId}/players/${id}`)
-      // setRefreshing(true)
       setTeam({
         ...team,
         score: team.score - score,
         players: team.players.filter((player) => player.id !== id),
       })
     } catch (error) {
+      setAlert(handlerError(error), true)
       console.log(error)
     }
   }, [team])

@@ -9,10 +9,12 @@ import api from "../../servers/api";
 import { makeStyles } from "./style";
 
 import { FlatList } from "react-native-gesture-handler";
+import { handlerError } from "../../helpers/handlerError";
+
 
 
 const Players = () => {
-  const { team, setAlertMsg, onToggleSnackBar, vibrate } =
+  const { team, vibrate, setAlert } =
     useContext(GlobalContext);
 
   const { colors } = useTheme();
@@ -40,11 +42,9 @@ const Players = () => {
         `/users/${user?.id}/teams/${team?.corneteiroTeamId}/players`,
         data
       );
-      setAlertMsg("Jogador adicionado");
-      onToggleSnackBar(true);
+      setAlert("Jogador adicionado");
     } catch (error) {
-      setAlertMsg(error?.response?.data?.message);
-      onToggleSnackBar(true);
+      setAlert(handlerError(error), true)
       console.log(error);
     }
   }, []);

@@ -1,22 +1,23 @@
 import React, { useCallback, useContext, useState } from "react";
 import {
-  KeyboardAvoidingView,
+  Image, KeyboardAvoidingView,
   Text,
   TextInput,
-  View,
-  Image,
+  View
 } from "react-native";
 
 import { useForm } from "react-hook-form";
 import { Button, useTheme } from "react-native-paper";
 import { GlobalContext } from "../../contexts/global";
-import { storeSingleData } from "../../contexts/storage";
+import { storeGenericData, storeSingleData } from "../../contexts/storage";
+import { handlerError } from "../../helpers/handlerError";
 import api from "../../servers/api";
 import { makeStyles } from "./styles";
 
+
 export default function Home() {
   const { register, handleSubmit, setValue } = useForm();
-  const { vibrate, setUser, user, setIsLogged, setToken } =
+  const { vibrate, setUser, user, setToken, setAlert } =
     useContext(GlobalContext);
 
   const { colors } = useTheme();
@@ -31,6 +32,7 @@ export default function Home() {
       setUser(response.data);
       setCodeSent(true);
     } catch (error) {
+      setAlert(handlerError(error), true)
       console.log(error);
     }
   }, []);
@@ -47,9 +49,9 @@ export default function Home() {
         storeSingleData("@token", response.data?.token);
         storeGenericData("@user", response.data?.user);
         setUser(response.data?.user);
-        setIsLogged(true);
         setToken(response.data.token);
       } catch (error) {
+        setAlert(handlerError(error), true)
         console.log(error);
       }
     },

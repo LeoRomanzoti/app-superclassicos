@@ -5,6 +5,7 @@ import CardPlayer from "../../components/CardPlayer";
 import Container from "../../components/Container";
 import CustomModal from "../../components/Modal";
 import { GlobalContext } from "../../contexts/global";
+import { handlerError } from "../../helpers/handlerError";
 import api from "../../servers/api";
 
 const Points = () => {
@@ -14,7 +15,7 @@ const Points = () => {
   const [player, setPlayer] = useState("");
   const [refreshing, setRefreshing] = useState(false)
 
-  const { vibrate, setAlertMsg, onToggleSnackBar } = useContext(GlobalContext);
+  const { vibrate, setAlert } = useContext(GlobalContext);
 
   useEffect(() => {
     async function loadPlayer() {
@@ -49,11 +50,11 @@ const Points = () => {
         );
         setOpenModal(false);
         setPlayer(player);
-        setAlertMsg(
+        setAlert(
           `${point} adicionado para o jogador ${player.player.name}.`
         );
-        onToggleSnackBar(true);
       } catch (error) {
+        setAlert(handlerError(error), true)
         console.log(error);
       }
     },
