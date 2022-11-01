@@ -88,7 +88,7 @@ const Players = () => {
           />
         }
         data={players}
-        keyExtractor={(team) => team?.id}
+        keyExtractor={(player) => player?.chosenPlayerId}
         renderItem={({ item, index }) => {
           return (
             <CardPlayer
@@ -100,14 +100,6 @@ const Players = () => {
           );
         }}
       />
-      {/* {players.map((player) => (
-        <CardPlayer
-          key={player?.chosenPlayerId}
-          title={player?.player?.name}
-          description={player?.player?.position}
-          addPlayer={() => handleAddPlayer(player?.chosenPlayerId)}
-        />
-      ))} */}
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import {
   Animated,
   RefreshControl,
@@ -6,14 +6,13 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { Divider, IconButton, List, useTheme } from "react-native-paper";
+import { IconButton, List, useTheme } from "react-native-paper";
 
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
-import { GlobalContext } from "../../contexts/global";
 import makeStyles from "./style";
 
-const TeamList = ({ total, team, players, setRefreshing, refreshing }) => {
+const TeamList = ({ total, team, players, setRefreshing, refreshing, handleDeletePlayer }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
@@ -24,7 +23,6 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing }) => {
         <Text style={styles.points}>Pontuação Total</Text>
         <Text style={styles.points}>{total}</Text>
       </View>
-      <Divider style={styles.divider} />
 
       {/* NOVO JEITO DE FAZERMOS O .map() */}
       {/* PARA CONSEGUIRMOS TEM UM SCROLL PARA BAIXO NA NOSSA LISTA, PRECISAMOS
@@ -57,14 +55,20 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing }) => {
                     progress={progress}
                     dragX={dragX}
                     styles={styles}
+                    handleDeletePlayer={handleDeletePlayer}
+                    id={item?.id}
+                    score={item?.chosenPlayer?.score}
                   />
                 )}
               >
-                <List.Item
-                  title={playerData?.name}
-                  description={playerData?.position}
-                  right={(props) => <Text>{point}</Text>}
-                />
+                <View style={styles.box}>
+                  <List.Item
+                    style={styles.list}
+                    title={playerData?.name}
+                    description={playerData?.position}
+                    right={(props) => <Text>{point}</Text>}
+                  />
+                </View>
               </Swipeable>
             </GestureHandlerRootView>
           );
@@ -75,8 +79,8 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing }) => {
 };
 
 // esse componente é o botão DELETAR que aparece quando fazemos o push para a lateral
-const RenderRightActions = ({ progress, dragX, styles }) => {
-  const { vibrate } = useContext(GlobalContext);
+const RenderRightActions = ({ progress, dragX, styles, handleDeletePlayer, id, score }) => {
+
 
   const scale = dragX.interpolate({
     inputRange: [-50, 0],
@@ -85,7 +89,7 @@ const RenderRightActions = ({ progress, dragX, styles }) => {
   });
 
   return (
-    <TouchableOpacity onPress={vibrate}>
+    <TouchableOpacity onPress={() => handleDeletePlayer(id, score)}>
       <Animated.View
         style={[styles.deleteButton, { transform: [{ scaleX: scale }] }]}
       >

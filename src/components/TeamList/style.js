@@ -35,6 +35,11 @@ const makeStyles = (colors) =>
       paddingBottom: 7,
       color: colors.secondary,
     },
+    list: {
+      backgroundColor: "#e4e4e4",
+      borderRadius: 15,
+    },
+    box: { paddingBottom: 2 },
   });
 
 export default makeStyles;

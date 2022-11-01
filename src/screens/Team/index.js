@@ -9,7 +9,7 @@ import api from "../../servers/api";
 
 
 const Team = () => {
-  const { team, setTeam } = useContext(GlobalContext)
+  const { team, setTeam, vibrate } = useContext(GlobalContext)
   const [teamName, setTeamName] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
@@ -39,6 +39,22 @@ const Team = () => {
     }
   }, [teamName])
 
+  const handleDeletePlayer = useCallback(async (id, score) => {
+    try {
+      vibrate()
+      const user = await getGenericData('@user')
+      const response = await api.delete(`/users/${user?.id}/teams/${team?.corneteiroTeamId}/players/${id}`)
+      // setRefreshing(true)
+      setTeam({
+        ...team,
+        score: team.score - score,
+        players: team.players.filter((player) => player.id !== id),
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }, [team])
+
   return (
     <Container>
       {team?.corneteiroTeamId ? (
@@ -48,6 +64,7 @@ const Team = () => {
           players={team.players}
           setRefreshing={setRefreshing}
           refreshing={refreshing}
+          handleDeletePlayer={handleDeletePlayer}
         />
       ) : (
         <TeamName
