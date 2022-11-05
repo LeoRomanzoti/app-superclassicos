@@ -50,19 +50,14 @@ const Players = () => {
       <Text style={styles.description}>
         1 goleiro, 2 zagueiros, 2 laterais, 2 volantes, 2 meias e 2 atacantes.
       </Text>
-      <Image
-        source={require("../../../assets/formacao.jpg")}
-        style={{ height: 160, width: 400 }}
-      />
+      <View style={styles.imageView}>
+        <Image
+          source={require("../../../assets/formacao.jpg")}
+          style={styles.image}
+        />
+      </View>
 
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingTop: 15,
-          paddingBottom: 9,
-        }}
-      >
+      <View style={styles.listTitle}>
         <View>
           <Text style={styles.name}>Nome</Text>
           <Text style={styles.position}>Posição</Text>

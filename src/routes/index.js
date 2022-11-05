@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { IconButton } from "react-native-paper";
 import { GlobalContext } from "../contexts/global";
 import { getSingleData } from "../contexts/storage";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import Home from "../screens/Home";
 import League from "../screens/League";
 import Players from "../screens/Players";
@@ -25,10 +26,31 @@ const Routes = () => {
 
   return (
     <>
-      {isLogged ? (
+      {!isLogged ? (
         <Home />
       ) : (
-        <Tab.Navigator>
+        <Tab.Navigator
+          screenOptions={{
+            headerRight: () => (
+              <HeaderButtons>
+                <Item
+                  title="..."
+                  iconName="ios-search"
+                  onPress={() => alert("Apertou")}
+                  color={"white"}
+                  style={{ fontWeight: "bold" }}
+                />
+              </HeaderButtons>
+            ),
+            headerStyle: {
+              backgroundColor: "#c8102e",
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        >
           <Tab.Screen
             name="Meu Time"
             component={Team}
