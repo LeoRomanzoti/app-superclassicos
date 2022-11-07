@@ -17,7 +17,7 @@ export const makeStyles = (colors) =>
       fontSize: 13,
       fontWeight: "100",
       textAlign: "center",
-      paddingBottom: 15,
+      paddingBottom: 5,
     },
     name: {
       fontSize: 24,
@@ -42,5 +42,19 @@ export const makeStyles = (colors) =>
     list: {
       backgroundColor: "#e4e4e4",
       borderRadius: 15,
+    },
+    image: {
+      height: 120,
+      width: 350,
+    },
+    imageView: {
+      alignItems: "center",
+      paddingBottom: -9,
+    },
+    listTitle: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingTop: 1,
+      paddingBottom: 9,
     },
   });

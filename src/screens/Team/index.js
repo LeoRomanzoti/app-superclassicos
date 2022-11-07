@@ -8,38 +8,40 @@ import { getGenericData } from "../../contexts/storage";
 import { handlerError } from "../../helpers/handlerError";
 import api from "../../servers/api";
 
-
 const Team = () => {
+
   const { team, setTeam, vibrate, setAlert } = useContext(GlobalContext)
+
   const [teamName, setTeamName] = useState("");
   const [refreshing, setRefreshing] = useState(false);
-
 
   useEffect(() => {
     async function loadTeam() {
       try {
-        const user = await getGenericData('@user')
-        const { data } = await api.get(`/users/${user?.id}/teams`)
-        setTeam(data)
+        const user = await getGenericData("@user");
+        const { data } = await api.get(`/users/${user?.id}/teams`);
+        setTeam(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-      setRefreshing(false)
+      setRefreshing(false);
     }
-    loadTeam()
-  }, [refreshing])
+    loadTeam();
+  }, [refreshing]);
 
   const handleCreateTeam = useCallback(async () => {
     try {
-      const data = { team_name: teamName }
-      const user = await getGenericData('@user')
-      const response = await api.post(`/users/${user?.id}/teams`, data)
-      setTeam(response.data)
+      const data = { team_name: teamName };
+      const user = await getGenericData("@user");
+      const response = await api.post(`/users/${user?.id}/teams`, data);
+      setTeam(response.data);
     } catch (error) {
+
       setAlert(handlerError(error), true)
       console.log(error)
+
     }
-  }, [teamName])
+  }, [teamName]);
 
   const handleDeletePlayer = useCallback(async (id, score) => {
     try {
