@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "superclassicos",
-    "slug": "superclassicos",
+    "name": "SuperClassicos",
+    "slug": "SuperClassicos",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,12 +22,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.pedroimpulcetto.SuperClassicos"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7d55e6c2-4c70-4292-a184-a6d43deabd73"
+      }
     }
   }
 }

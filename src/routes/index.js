@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useContext, useEffect, useState } from "react";
 import { IconButton } from "react-native-paper";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { GlobalContext } from "../contexts/global";
 import { getSingleData } from "../contexts/storage";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import Home from "../screens/Home";
 import League from "../screens/League";
 import Players from "../screens/Players";
