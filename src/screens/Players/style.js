@@ -44,8 +44,8 @@ export const makeStyles = (colors) =>
       borderRadius: 15,
     },
     image: {
-      height: 120,
-      width: 350,
+      height: 130,
+      width: 325,
     },
     imageView: {
       alignItems: "center",

@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Image, RefreshControl, Text, View } from "react-native";
 import { useTheme } from "react-native-paper";
+import field from '../../../assets/field.png';
 import CardPlayer from "../../components/CardPlayer";
 import Container from "../../components/Container";
 import { GlobalContext } from "../../contexts/global";
@@ -60,7 +61,7 @@ const Players = () => {
       </Text>
       <View style={styles.imageView}>
         <Image
-          source={require("../../../assets/formacao.jpg")}
+          source={field}
           style={styles.image}
         />
       </View>
