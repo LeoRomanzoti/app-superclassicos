@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useCallback, useMemo, useState } from "react";
 import { Vibration } from "react-native";
 import { getGenericData } from "./storage";
 
@@ -6,16 +6,24 @@ export const GlobalContext = createContext({});
 
 export default function GlobalProvider({ children }) {
   // Login
-  const [isLogged, setIsLogged] = useState(false)
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
 
 
   // Alert
   const [visibleAlert, setVisibleAlert] = useState(false);
+  const [alertError, setAlertError] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const onToggleSnackBar = () => setVisibleAlert(!visibleAlert);
-  const setAlert = () => useMemo()
+  const setAlert = useCallback((msg, err = null) => {
+    setAlertMsg(msg)
+    onToggleSnackBar()
+    if (err) {
+      setAlertError(true)
+    } else {
+      setAlertError(false)
+    }
+  }, [])
 
 
   //Admin
@@ -42,20 +50,20 @@ export default function GlobalProvider({ children }) {
 
   // OBJETO GLOBAL
   const global = {
-    isLogged,
     isAdmin,
     visibleAlert,
     onToggleSnackBar,
     alertMsg,
     setAlertMsg,
+    setAlert,
     vibrate,
     team,
     setTeam,
     user,
     setUser,
-    setIsLogged,
     token,
     setToken,
+    alertError
   };
 
   return (

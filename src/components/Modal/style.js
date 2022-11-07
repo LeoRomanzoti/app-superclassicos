@@ -3,8 +3,10 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   centeredView: {
     marginTop: 22,
+    flex: 1
   },
   modalView: {
+    flex: 1,
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
