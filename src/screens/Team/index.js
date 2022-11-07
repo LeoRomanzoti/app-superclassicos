@@ -1,15 +1,17 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { View } from "react-native";
+import Container from "../../components/Container";
 
 import TeamList from "../../components/TeamList";
 import TeamName from "../../components/TeamName";
 import { GlobalContext } from "../../contexts/global";
 import { getGenericData } from "../../contexts/storage";
+import { handlerError } from "../../helpers/handlerError";
 import api from "../../servers/api";
-import { styles } from "./style";
 
 const Team = () => {
-  const { team, setTeam } = useContext(GlobalContext);
+
+  const { team, setTeam, vibrate, setAlert } = useContext(GlobalContext)
+
   const [teamName, setTeamName] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
@@ -34,12 +36,31 @@ const Team = () => {
       const response = await api.post(`/users/${user?.id}/teams`, data);
       setTeam(response.data);
     } catch (error) {
-      console.log(error);
+
+      setAlert(handlerError(error), true)
+      console.log(error)
+
     }
   }, [teamName]);
 
+  const handleDeletePlayer = useCallback(async (id, score) => {
+    try {
+      vibrate()
+      const user = await getGenericData('@user')
+      const response = await api.delete(`/users/${user?.id}/teams/${team?.corneteiroTeamId}/players/${id}`)
+      setTeam({
+        ...team,
+        score: team.score - score,
+        players: team.players.filter((player) => player.id !== id),
+      })
+    } catch (error) {
+      setAlert(handlerError(error), true)
+      console.log(error)
+    }
+  }, [team])
+
   return (
-    <View style={styles.container}>
+    <Container>
       {team?.corneteiroTeamId ? (
         <TeamList
           total={team.score}
@@ -47,6 +68,7 @@ const Team = () => {
           players={team.players}
           setRefreshing={setRefreshing}
           refreshing={refreshing}
+          handleDeletePlayer={handleDeletePlayer}
         />
       ) : (
         <TeamName
@@ -55,7 +77,7 @@ const Team = () => {
           handleCreateTeam={handleCreateTeam}
         />
       )}
-    </View>
+    </Container>
   );
 };
 

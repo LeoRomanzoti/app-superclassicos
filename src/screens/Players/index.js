@@ -1,28 +1,38 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { Image, Text, View } from "react-native";
+import { Image, RefreshControl, Text, View } from "react-native";
 import { useTheme } from "react-native-paper";
 import field from '../../../assets/field.png';
 import CardPlayer from "../../components/CardPlayer";
+import Container from "../../components/Container";
 import { GlobalContext } from "../../contexts/global";
 import { getGenericData } from "../../contexts/storage";
 import api from "../../servers/api";
 import { makeStyles } from "./style";
 
+import { FlatList } from "react-native-gesture-handler";
+import { handlerError } from "../../helpers/handlerError";
+
+
+
 const Players = () => {
-  const { team, setAlertMsg, onToggleSnackBar, vibrate } =
+  const { team, vibrate, setAlert } =
     useContext(GlobalContext);
 
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
   const [players, setPlayers] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
+
   useEffect(() => {
     async function loadPlayer() {
       const { data } = await api.get("/chosen-players");
       setPlayers([...data]);
+      setRefreshing(false)
     }
     loadPlayer();
-  }, []);
+  }, [refreshing]);
 
   const handleAddPlayer = useCallback(async (chosenPlayerId) => {
     try {
@@ -33,17 +43,15 @@ const Players = () => {
         `/users/${user?.id}/teams/${team?.corneteiroTeamId}/players`,
         data
       );
-      setAlertMsg("Jogador adicionado");
-      onToggleSnackBar(true);
+      setAlert("Jogador adicionado");
     } catch (error) {
-      setAlertMsg(error?.response?.data?.message);
-      onToggleSnackBar(true);
+      setAlert(handlerError(error), true)
       console.log(error);
     }
   }, []);
 
   return (
-    <View style={styles.container}>
+    <Container>
       <Text style={styles.title}>Monte seu time:</Text>
       <Text style={styles.subTitle}>
         Você deverá montar um time no esquema 4-4-2.
@@ -66,15 +74,29 @@ const Players = () => {
         <Text style={styles.add}>Adicionar</Text>
       </View>
 
-      {players.map((player) => (
-        <CardPlayer
-          key={player?.chosenPlayerId}
-          title={player?.player?.name}
-          description={player?.player?.position}
-          addPlayer={() => handleAddPlayer(player?.chosenPlayerId)}
-        />
-      ))}
-    </View>
+
+      <FlatList
+        contentContainerStyle={styles.flatBottom}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => setRefreshing(true)}
+          />
+        }
+        data={players}
+        keyExtractor={(player) => player?.chosenPlayerId}
+        renderItem={({ item, index }) => {
+          return (
+            <CardPlayer
+              key={item?.chosenPlayerId}
+              title={item?.player?.name}
+              description={item?.player?.position}
+              addPlayer={() => handleAddPlayer(item?.chosenPlayerId)}
+            />
+          );
+        }}
+      />
+    </Container>
   );
 };
 
