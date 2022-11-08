@@ -39,3 +39,10 @@ export const getGenericData = async (name) => {
         // error reading value
     }
 }
+
+export const clearAllData = async () => {
+    try {
+        await AsyncStorage.clear()
+    } catch (e) {
+    }
+}

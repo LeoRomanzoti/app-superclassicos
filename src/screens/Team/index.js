@@ -14,6 +14,9 @@ const Team = () => {
 
   const [teamName, setTeamName] = useState("");
   const [refreshing, setRefreshing] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [player, setPlayer] = useState("");
+  const [points, setPoints] = useState([])
 
   useEffect(() => {
     async function loadTeam() {
@@ -28,6 +31,21 @@ const Team = () => {
     }
     loadTeam();
   }, [refreshing]);
+
+
+  const handleOpenModal = useCallback(async (player) => {
+    try {
+      const response = await api.get(
+        `/chosen-players/${player?.id}/points`)
+      setOpenModal(true);
+      setPlayer(player);
+      setPoints(response.data)
+    } catch (error) {
+      setAlert(handlerError(error), true)
+      console.log(error);
+    }
+  }, []);
+
 
   const handleCreateTeam = useCallback(async () => {
     try {
@@ -69,6 +87,11 @@ const Team = () => {
           setRefreshing={setRefreshing}
           refreshing={refreshing}
           handleDeletePlayer={handleDeletePlayer}
+          setOpenModal={setOpenModal}
+          points={points}
+          player={player}
+          openModal={openModal}
+          handleOpenModal={handleOpenModal}
         />
       ) : (
         <TeamName

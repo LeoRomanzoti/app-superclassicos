@@ -7,12 +7,13 @@ import {
   View
 } from "react-native";
 import { IconButton, List, useTheme } from "react-native-paper";
+import CustomModal from "../Modal";
 
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import makeStyles from "./style";
 
-const TeamList = ({ total, team, players, setRefreshing, refreshing, handleDeletePlayer }) => {
+const TeamList = ({ total, team, players, setRefreshing, refreshing, handleDeletePlayer, openModal, setOpenModal, points, player, handleOpenModal }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
@@ -24,14 +25,15 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing, handleDelet
         <Text style={styles.points}>{total}</Text>
       </View>
 
-      {/* NOVO JEITO DE FAZERMOS O .map() */}
-      {/* PARA CONSEGUIRMOS TEM UM SCROLL PARA BAIXO NA NOSSA LISTA, PRECISAMOS
-      USAR O COMPONENTE FLATLIST COMO ESTÁ ABAIXO
-        - ele tem algumas propriedades obrigatórias como:
-          - data
-          - renderItem
-          - keyExtractor
-      */}
+      <CustomModal
+        modalVisible={openModal}
+        setModalVisible={setOpenModal}
+        pointsList={points}
+        player={player}
+        handleAddPoint={null}
+        hasIcon={false}
+      />
+
       <FlatList
         contentContainerStyle={styles.flatBottom}
         refreshControl={
@@ -63,6 +65,7 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing, handleDelet
               >
                 <View style={styles.box}>
                   <List.Item
+                    onPress={() => handleOpenModal(item?.chosenPlayer)}
                     style={styles.list}
                     title={playerData?.name}
                     description={playerData?.position}

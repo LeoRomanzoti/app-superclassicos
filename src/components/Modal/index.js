@@ -10,6 +10,7 @@ const CustomModal = ({
   pointsList,
   player,
   handleAddPoint,
+  hasIcon = true
 }) => {
 
 
@@ -30,26 +31,32 @@ const CustomModal = ({
               data={pointsList}
               keyExtractor={(point) => point?.id}
               renderItem={({ item, index }) => {
+                let point = item;
+                if (item?.point) {
+                  point = item?.point
+                }
                 return (
-                  <View key={item?.id} style={styles.listModal}>
+                  <View key={point?.id} style={styles.listModal}>
                     <List.Item
                       style={styles.list}
-                      title={item?.label}
+                      title={point?.label}
                       right={(props) => (
-                        <View style={styles.modalButton}>
-                          <IconButton
-                            onPress={() =>
-                              handleAddPoint(
-                                item?.id,
-                                item?.value,
-                                player?.chosenPlayerId,
-                                item?.label
-                              )
-                            }
-                            icon="plus"
-                            iconColor="white"
-                          />
-                        </View>
+                        <>
+                          {hasIcon ? (<View style={styles.modalButton}>
+                            <IconButton
+                              onPress={() =>
+                                handleAddPoint(
+                                  point?.id,
+                                  point?.value,
+                                  player?.chosenPlayerId,
+                                  point?.label
+                                )
+                              }
+                              icon="plus"
+                              iconColor="white"
+                            />
+                          </View>) : (<Text>{point?.value}</Text>)}
+                        </>
                       )}
                     />
                   </View>

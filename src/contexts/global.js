@@ -1,6 +1,5 @@
-import React, { createContext, useCallback, useMemo, useState } from "react";
+import React, { createContext, useCallback, useState } from "react";
 import { Vibration } from "react-native";
-import { getGenericData } from "./storage";
 
 export const GlobalContext = createContext({});
 
@@ -26,19 +25,6 @@ export default function GlobalProvider({ children }) {
   }, [])
 
 
-  //Admin
-  const isAdmin = useMemo(async () => {
-    const user = await getGenericData('@user')
-    let isAdmin = false;
-    user?.scopes?.map((scope) => {
-      if (scope === "admin") {
-        isAdmin = true
-      }
-    })
-    return isAdmin
-  }, [user])
-
-
   //Team
   const [team, setTeam] = useState(null);
 
@@ -50,7 +36,6 @@ export default function GlobalProvider({ children }) {
 
   // OBJETO GLOBAL
   const global = {
-    isAdmin,
     visibleAlert,
     onToggleSnackBar,
     alertMsg,

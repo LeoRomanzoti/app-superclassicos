@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { IconButton } from "react-native-paper";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { HeaderButton, HeaderButtons, Item } from "react-navigation-header-buttons";
 import { GlobalContext } from "../contexts/global";
-import { getSingleData } from "../contexts/storage";
+import { clearAllData, getGenericData, getSingleData } from "../contexts/storage";
+import { handlerError } from "../helpers/handlerError";
 import Home from "../screens/Home";
 import League from "../screens/League";
 import Players from "../screens/Players";
@@ -11,18 +13,43 @@ import Points from "../screens/Points";
 import Team from "../screens/Team";
 
 const Tab = createBottomTabNavigator();
+const IoniconsHeaderButton = (props) => (
+  <HeaderButton IconComponent={MaterialIcons} iconSize={23} {...props} />
+);
 
 const Routes = () => {
-  const { isAdmin, token } = useContext(GlobalContext);
+  const { token, setAlert } = useContext(GlobalContext);
   const [isLogged, setIsLogged] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     async function loadIsLogged() {
       const isLogged = await getSingleData("@token");
       setIsLogged(isLogged);
     }
+
+    async function loadIsAdmin(params) {
+      const user = await getGenericData('@user')
+      user?.scopes?.map((scope) => {
+        if (scope === "admin") {
+          setIsAdmin(true)
+        }
+      })
+    }
     loadIsLogged();
+    loadIsAdmin();
   }, [token]);
+
+  const logOut = useCallback(async () => {
+    try {
+      await clearAllData();
+      setIsLogged(false)
+      setAlert("Usuário Desconectado.");
+    } catch (error) {
+      setAlert(handlerError(error), true)
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>
@@ -32,14 +59,8 @@ const Routes = () => {
         <Tab.Navigator
           screenOptions={{
             headerRight: () => (
-              <HeaderButtons>
-                <Item
-                  title="..."
-                  iconName="ios-search"
-                  onPress={() => alert("Apertou")}
-                  color={"white"}
-                  style={{ fontWeight: "bold" }}
-                />
+              <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
+                <Item title="search" iconName="exit-to-app" onPress={() => logOut()} color="white" />
               </HeaderButtons>
             ),
             headerStyle: {
@@ -95,7 +116,8 @@ const Routes = () => {
             />
           )}
         </Tab.Navigator>
-      )}
+      )
+      }
     </>
   );
 };
