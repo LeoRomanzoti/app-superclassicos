@@ -11,17 +11,16 @@ export const makeStyles = (colors) =>
     input: {
       backgroundColor: "#e4e4e4",
       width: 320,
-      marginBottom: 14,
+      marginBottom: 10,
       fontSize: 22,
       borderRadius: 7,
-      padding: 10,
-      marginTop: 14,
+      padding: 12,
     },
 
     buttonCode: {
       backgroundColor: colors.primary,
       width: 320,
-      marginBottom: 14,
+      marginTop: 11,
     },
 
     button: {
@@ -53,23 +52,24 @@ export const makeStyles = (colors) =>
     },
 
     index: {
-      marginBottom: 20,
-      backgroundColor: "white",
-      borderRadius: 10,
-      width: 350,
+      marginBottom: 0,
+      backgroundColor: "#c8102e",
+      flex: 0.65,
+      alignItems: "center",
+      justifyContent: "center",
     },
 
-    middle: {
-      marginBottom: 20,
+    bottom: {
+      marginTop: 110,
       backgroundColor: "white",
-      width: 350,
-      borderRadius: 15,
       alignItems: "center",
+      justifyContent: "center",
     },
     inputView: {
       backgroundColor: "white",
-      width: 350,
+      width: 420,
       borderRadius: 15,
       alignItems: "center",
+      flex: 1,
     },
   });
