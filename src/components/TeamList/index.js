@@ -6,14 +6,14 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { IconButton, List, useTheme } from "react-native-paper";
+import { ActivityIndicator, IconButton, List, useTheme } from "react-native-paper";
 import CustomModal from "../Modal";
 
 import { FlatList, GestureHandlerRootView } from "react-native-gesture-handler";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import makeStyles from "./style";
 
-const TeamList = ({ total, team, players, setRefreshing, refreshing, handleDeletePlayer, openModal, setOpenModal, points, player, handleOpenModal }) => {
+const TeamList = ({ total, team, players, setRefreshing, refreshing, handleDeletePlayer, openModal, setOpenModal, points, player, handleOpenModal, loading }) => {
   const { colors } = useTheme();
   const styles = makeStyles(colors);
 
@@ -60,6 +60,7 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing, handleDelet
                     handleDeletePlayer={handleDeletePlayer}
                     id={item?.id}
                     score={item?.chosenPlayer?.score}
+                    loading={loading}
                   />
                 )}
               >
@@ -82,7 +83,7 @@ const TeamList = ({ total, team, players, setRefreshing, refreshing, handleDelet
 };
 
 // esse componente é o botão DELETAR que aparece quando fazemos o push para a lateral
-const RenderRightActions = ({ progress, dragX, styles, handleDeletePlayer, id, score }) => {
+const RenderRightActions = ({ progress, dragX, styles, handleDeletePlayer, id, score, loading }) => {
 
 
   const scale = dragX.interpolate({
@@ -96,7 +97,13 @@ const RenderRightActions = ({ progress, dragX, styles, handleDeletePlayer, id, s
       <Animated.View
         style={[styles.deleteButton, { transform: [{ scaleX: scale }] }]}
       >
-        <IconButton iconColor="white" icon="delete" size={30} />
+        {loading ? (
+          <View>
+            <ActivityIndicator style={{ padding: 15, }} size={30} animating={loading} color='white' />
+          </View>
+        ) : (
+          <IconButton iconColor="white" icon="delete" size={30} />
+        )}
       </Animated.View>
     </TouchableOpacity>
   );

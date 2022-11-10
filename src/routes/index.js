@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { IconButton } from "react-native-paper";
+import { ActivityIndicator, IconButton } from "react-native-paper";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { HeaderButton, HeaderButtons, Item } from "react-navigation-header-buttons";
 import { GlobalContext } from "../contexts/global";
@@ -18,7 +18,7 @@ const IoniconsHeaderButton = (props) => (
 );
 
 const Routes = () => {
-  const { token, setAlert } = useContext(GlobalContext);
+  const { token, setAlert, globalLoading } = useContext(GlobalContext);
   const [isLogged, setIsLogged] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -60,7 +60,11 @@ const Routes = () => {
           screenOptions={{
             headerRight: () => (
               <HeaderButtons HeaderButtonComponent={IoniconsHeaderButton}>
-                <Item title="search" iconName="exit-to-app" onPress={() => logOut()} color="white" />
+                {globalLoading ? (
+                  <ActivityIndicator style={{ marginRight: 10 }} size='small' animating={globalLoading} color='white' />
+                ) : (
+                  <Item title="search" iconName="exit-to-app" onPress={() => logOut()} color="white" />
+                )}
               </HeaderButtons>
             ),
             headerStyle: {

@@ -4,7 +4,7 @@ import { Button, TextInput, useTheme } from "react-native-paper";
 import { makeStyles } from "./style";
 
 
-const TeamName = ({ value, setValue, handleCreateTeam }) => {
+const TeamName = ({ value, setValue, handleCreateTeam, loading }) => {
   const theme = useTheme();
   const styles = makeStyles(theme);
 
@@ -15,7 +15,15 @@ const TeamName = ({ value, setValue, handleCreateTeam }) => {
         value={value}
         onChangeText={(text) => setValue(text)}
       />
-      <Button style={styles.button} disabled={value.length === 0} onPress={() => handleCreateTeam()} mode="contained">Criar time</Button>
+      <Button
+        style={styles.button}
+        disabled={value.length === 0 || loading}
+        onPress={() => handleCreateTeam()}
+        mode="contained"
+        loading={loading}
+      >
+        Criar time
+      </Button>
     </View>
   );
 };

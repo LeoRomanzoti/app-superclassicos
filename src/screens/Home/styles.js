@@ -4,29 +4,15 @@ export const makeStyles = (colors) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
     },
 
     input: {
       backgroundColor: "#e4e4e4",
-      width: 320,
+      alignSelf: 'stretch',
+    },
+
+    helper: {
       marginBottom: 10,
-      fontSize: 22,
-      borderRadius: 7,
-      padding: 12,
-    },
-
-    buttonCode: {
-      backgroundColor: colors.primary,
-      width: 320,
-      marginTop: 11,
-    },
-
-    button: {
-      backgroundColor: colors.primary,
-      width: 320,
-      marginBottom: 14,
     },
 
     image: {
@@ -35,21 +21,6 @@ export const makeStyles = (colors) =>
       borderRadius: 300 / 2,
     },
 
-    title: {
-      fontSize: 18,
-      textAlign: "center",
-      color: colors.primary,
-      fontWeight: "bold",
-      marginTop: 7,
-    },
-
-    subTitle: {
-      fontSize: 14,
-      fontWeight: "300",
-      textAlign: "center",
-      color: colors.tertiary,
-      marginBottom: 7,
-    },
 
     index: {
       marginBottom: 0,
@@ -60,16 +31,9 @@ export const makeStyles = (colors) =>
     },
 
     bottom: {
-      marginTop: 110,
-      backgroundColor: "white",
-      alignItems: "center",
-      justifyContent: "center",
+      margin: 40
     },
     inputView: {
-      backgroundColor: "white",
-      width: 420,
-      borderRadius: 15,
-      alignItems: "center",
       flex: 1,
     },
   });
