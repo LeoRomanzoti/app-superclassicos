@@ -15,7 +15,7 @@ const Points = () => {
   const [player, setPlayer] = useState("");
   const [refreshing, setRefreshing] = useState(false)
 
-  const { vibrate, setAlert, setGlobalLoading } = useContext(GlobalContext);
+  const { vibrate, setAlert, setGlobalLoading, globalLoading } = useContext(GlobalContext);
 
   useEffect(() => {
     async function loadPlayer() {
@@ -72,6 +72,7 @@ const Points = () => {
         pointsList={points}
         player={player}
         handleAddPoint={handleAddPoint}
+        globalLoading={globalLoading}
       />
       <FlatList
         refreshControl={

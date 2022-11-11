@@ -3,7 +3,7 @@ import { getSingleData } from "../contexts/storage";
 
 
 
-const api = axios.create({ baseURL: "http://44.204.201.179:3000" });
+const api = axios.create({ baseURL: "http://ec2-52-20-67-24.compute-1.amazonaws.com" });
 
 
 api.interceptors.request.use(

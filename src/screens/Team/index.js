@@ -10,7 +10,7 @@ import api from "../../servers/api";
 
 const Team = () => {
 
-  const { team, setTeam, vibrate, setAlert } = useContext(GlobalContext)
+  const { team, setTeam, vibrate, setAlert, setGlobalLoading } = useContext(GlobalContext)
 
   const [teamName, setTeamName] = useState("");
   const [refreshing, setRefreshing] = useState(false);
@@ -36,6 +36,7 @@ const Team = () => {
 
   const handleOpenModal = useCallback(async (player) => {
     try {
+      setGlobalLoading(true)
       const response = await api.get(
         `/chosen-players/${player?.id}/points`)
       setOpenModal(true);
@@ -44,6 +45,8 @@ const Team = () => {
     } catch (error) {
       setAlert(handlerError(error), true)
       console.log(error);
+    } finally {
+      setGlobalLoading(false)
     }
   }, []);
 
