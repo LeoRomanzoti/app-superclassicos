@@ -60,6 +60,7 @@ const League = () => {
             <List.Item
               key={item?.id}
               title={item?.name}
+              description={item?.userName}
               right={(props) => <Text style={{ fontSize: 18 }}>{item?.score}</Text>}
               left={(props) => configStar?.icon ? <Icon solid name="medal" icon="star" color={configStar?.color} style={{ fontSize: configStar?.size }} /> : <></>}
             />
