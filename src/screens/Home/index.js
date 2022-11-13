@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 import { useForm } from "react-hook-form";
-import { ActivityIndicator, Button, HelperText, TextInput, useTheme } from "react-native-paper";
+import { Button, HelperText, TextInput, useTheme } from "react-native-paper";
 import { GlobalContext } from "../../contexts/global";
 import { storeGenericData, storeSingleData } from "../../contexts/storage";
 import { handlerError } from "../../helpers/handlerError";
@@ -119,19 +119,27 @@ export default function Home() {
                     minLength: 11,
                   })}
                 />
-                <HelperText style={styles.helper} type="error" visible={errors.user_phone?.type === 'required' || (getValues()?.user_phone?.length > 1 && getValues()?.user_phone?.length < 11)} role="alert">
+                <HelperText
+                  style={styles.helper}
+                  type="error"
+                  visible={errors.user_phone?.type === 'required' || (getValues()?.user_phone?.length > 1 && getValues()?.user_phone?.length < 11)}
+                  role="alert">
                   Número deverá conter 11 digitos, DDD + n.º
                 </HelperText>
 
                 {codeSent && (
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Código de acesso"
-                    keyboardType="numeric"
-                    textContentType="oneTimeCode"
-                    onChangeText={(text) => setValue("code", text)}
-                    {...register("code", { required: codeSent ? true : false })}
-                  />
+                  <>
+                    <TextInput
+                      mode="flat"
+                      style={styles.input}
+                      placeholder="Código de acesso"
+                      keyboardType="numeric"
+                      textContentType="oneTimeCode"
+                      onChangeText={(text) => setValue("code", text)}
+                      {...register("code", { required: codeSent ? true : false })}
+                    />
+                    <HelperText></HelperText>
+                  </>
                 )}
 
                 {!codeSent ? (
@@ -148,12 +156,10 @@ export default function Home() {
                   <Button
                     loading={loading}
                     disabled={loading}
-                    icon='circle'
                     onPress={handleSubmit(handleValidate)}
                     buttonColor={colors.primary}
                     mode="contained"
                   >
-                    <ActivityIndicator animating={true} color={MD2Colors.red800} />
                     <Text>Entrar</Text>
                   </Button>
                 )}

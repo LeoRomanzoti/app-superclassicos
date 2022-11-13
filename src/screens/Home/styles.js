@@ -12,8 +12,8 @@ export const makeStyles = (colors) =>
     },
 
     helper: {
-      marginBottom: 10,
     },
+
 
     image: {
       width: 230,
