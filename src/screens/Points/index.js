@@ -15,7 +15,7 @@ const Points = () => {
   const [player, setPlayer] = useState("");
   const [refreshing, setRefreshing] = useState(false)
 
-  const { vibrate, setAlert } = useContext(GlobalContext);
+  const { vibrate, setAlert, setGlobalLoading, globalLoading } = useContext(GlobalContext);
 
   useEffect(() => {
     async function loadPlayer() {
@@ -42,6 +42,7 @@ const Points = () => {
   const handleAddPoint = useCallback(
     async (pointId, pointValue, playerId, point) => {
       try {
+        setGlobalLoading(true)
         vibrate();
         const data = { point_id: pointId, point_value: pointValue };
         const response = await api.post(
@@ -56,6 +57,8 @@ const Points = () => {
       } catch (error) {
         setAlert(handlerError(error), true)
         console.log(error);
+      } finally {
+        setGlobalLoading(false)
       }
     },
     [player]
@@ -69,6 +72,7 @@ const Points = () => {
         pointsList={points}
         player={player}
         handleAddPoint={handleAddPoint}
+        globalLoading={globalLoading}
       />
       <FlatList
         refreshControl={

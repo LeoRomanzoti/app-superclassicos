@@ -6,13 +6,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   Text,
-  TextInput,
+
   TouchableWithoutFeedback,
-  View,
+  View
 } from "react-native";
 
 import { useForm } from "react-hook-form";
-import { Button, useTheme, HelperText } from "react-native-paper";
+import { Button, HelperText, TextInput, useTheme } from "react-native-paper";
 import { GlobalContext } from "../../contexts/global";
 import { storeGenericData, storeSingleData } from "../../contexts/storage";
 import { handlerError } from "../../helpers/handlerError";
@@ -24,8 +24,9 @@ export default function Home() {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: { user_name: "", user_phone: "" } });
   const { vibrate, setUser, user, setToken, setAlert } =
     useContext(GlobalContext);
 
@@ -33,9 +34,11 @@ export default function Home() {
   const styles = makeStyles(colors);
 
   const [codeSent, setCodeSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = useCallback(async (data) => {
     try {
+      setLoading(true)
       vibrate();
       const response = await api.post(`/login`, data);
       setUser(response.data);
@@ -43,12 +46,15 @@ export default function Home() {
     } catch (error) {
       setAlert(handlerError(error), true);
       console.log(error);
+    } finally {
+      setLoading(false)
     }
   }, []);
 
   const handleValidate = useCallback(
     async (data) => {
       try {
+        setLoading(true)
         vibrate();
         const payload = {
           user_id: user.id,
@@ -62,6 +68,8 @@ export default function Home() {
       } catch (error) {
         setAlert(handlerError(error), true);
         console.log(error);
+      } finally {
+        setLoading(false)
       }
     },
     [user]
@@ -84,22 +92,23 @@ export default function Home() {
             <View style={styles.inputView}>
               <View style={styles.bottom}>
                 <TextInput
+                  mode="flat"
                   name="firstName"
+                  label="Nome"
                   style={styles.input}
-                  placeholder="Nome"
                   keyboardType="name-phone-pad"
                   textContentType="name"
                   autoCapitalize="none"
                   onChangeText={(text) => setValue("user_name", text)}
                   {...register("user_name", { required: true })}
                 />
-                {errors.user_name?.type === "required" && (
-                  <Text role="alert">Necessário digitar seu nome.</Text>
-                )}
+                <HelperText style={styles.helper} type="error" visible={errors.user_name?.type === 'required'} role="alert">Necessário digitar seu nome.</HelperText >
 
                 <TextInput
+                  mode="flat"
+                  label='Telefone'
                   style={styles.input}
-                  placeholder="Telefone"
+                  placeholder="Ex: 19912345678"
                   keyboardType="phone-pad"
                   textContentType="telephoneNumber"
                   autoCapitalize="none"
@@ -110,35 +119,45 @@ export default function Home() {
                     minLength: 11,
                   })}
                 />
-                {errors.user_phone?.type === "required" && (
-                  <Text role="alert">
-                    Número deverá conter 11 digitos, DDD + n.º
-                  </Text>
-                )}
+                <HelperText
+                  style={styles.helper}
+                  type="error"
+                  visible={errors.user_phone?.type === 'required' || (getValues()?.user_phone?.length > 1 && getValues()?.user_phone?.length < 11)}
+                  role="alert">
+                  Número deverá conter 11 digitos, DDD + n.º
+                </HelperText>
 
                 {codeSent && (
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Código de acesso"
-                    keyboardType="numeric"
-                    textContentType="oneTimeCode"
-                    onChangeText={(text) => setValue("code", text)}
-                    {...register("code", { required: true })}
-                  />
+                  <>
+                    <TextInput
+                      mode="flat"
+                      style={styles.input}
+                      placeholder="Código de acesso"
+                      keyboardType="numeric"
+                      textContentType="oneTimeCode"
+                      onChangeText={(text) => setValue("code", text)}
+                      {...register("code", { required: codeSent ? true : false })}
+                    />
+                    <HelperText></HelperText>
+                  </>
                 )}
 
                 {!codeSent ? (
                   <Button
                     onPress={handleSubmit(handleLogin)}
-                    style={styles.buttonCode}
+                    buttonColor={colors.primary}
                     mode="contained"
+                    loading={loading}
+                    disabled={loading}
                   >
                     <Text>Enviar Código</Text>
                   </Button>
                 ) : (
                   <Button
+                    loading={loading}
+                    disabled={loading}
                     onPress={handleSubmit(handleValidate)}
-                    style={styles.button}
+                    buttonColor={colors.primary}
                     mode="contained"
                   >
                     <Text>Entrar</Text>

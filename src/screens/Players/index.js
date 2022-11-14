@@ -15,7 +15,7 @@ import { handlerError } from "../../helpers/handlerError";
 
 
 const Players = () => {
-  const { team, vibrate, setAlert } =
+  const { team, vibrate, setAlert, setGlobalLoading } =
     useContext(GlobalContext);
 
   const { colors } = useTheme();
@@ -36,6 +36,7 @@ const Players = () => {
 
   const handleAddPlayer = useCallback(async (chosenPlayerId) => {
     try {
+      setGlobalLoading(true)
       vibrate();
       const data = { chosen_player_id: chosenPlayerId };
       const user = await getGenericData("@user");
@@ -47,6 +48,8 @@ const Players = () => {
     } catch (error) {
       setAlert(handlerError(error), true)
       console.log(error);
+    } finally {
+      setGlobalLoading(false)
     }
   }, []);
 

@@ -10,7 +10,8 @@ const CustomModal = ({
   pointsList,
   player,
   handleAddPoint,
-  hasIcon = true
+  hasIcon = true,
+  globalLoading = false
 }) => {
 
 
@@ -67,6 +68,8 @@ const CustomModal = ({
               style={{ marginTop: 30 }}
               mode="contained"
               onPress={() => setModalVisible(!modalVisible)}
+              loading={globalLoading}
+              disabled={globalLoading}
             >
               Fechar
             </Button>

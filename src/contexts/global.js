@@ -29,6 +29,10 @@ export default function GlobalProvider({ children }) {
   const [team, setTeam] = useState(null);
 
 
+  // Loading
+  const [globalLoading, setGlobalLoading] = useState(false);
+
+
   // Vibrate
   const vibrate = () =>
     Vibration.vibrate(Platform.OS === "android" ? 100 : [100]);
@@ -48,7 +52,9 @@ export default function GlobalProvider({ children }) {
     setUser,
     token,
     setToken,
-    alertError
+    alertError,
+    setGlobalLoading,
+    globalLoading
   };
 
   return (
