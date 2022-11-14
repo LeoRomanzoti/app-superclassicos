@@ -55,5 +55,5 @@ Utilizo [SemVer](http://semver.org/) para controle de versão.
 
 * **Leonardo Romanzoti** - *desenvolvedor front-end*
 
-[![Linkedin Badge](https://img.shields.io/badge/-pedroimpulcetto-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/leonardo-romanzoti-dev/)](https://www.linkedin.com/in/leonardo-romanzoti-dev/)
-[![GitHub](https://img.shields.io/badge/-@pedroimpulcetto-black?style=flat-square&logo=Github&logoColor=white&link=https://github.com/LeoRomanzoti)](https://github.com/LeoRomanzoti)
+[![Linkedin Badge](https://img.shields.io/badge/-LeoRomanzoti-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/leonardo-romanzoti-dev/)](https://www.linkedin.com/in/leonardo-romanzoti-dev/)
+[![GitHub](https://img.shields.io/badge/-@LeoRomanzoti-black?style=flat-square&logo=Github&logoColor=white&link=https://github.com/LeoRomanzoti)](https://github.com/LeoRomanzoti)
